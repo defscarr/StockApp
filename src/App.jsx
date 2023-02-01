@@ -7,16 +7,17 @@ import { StockPage } from "./Pages/StockPage";
 export const App = () => {
   return ( 
     <main>
+      
       <Router>
         <Routes>
           <Route path='/' element={<StockPage />}></Route>
-          <Route path='/details/:symbol' element={null}></Route>
+          <Route path='/details/:symbol' element={<AutoComplete />}></Route>
         </Routes>
       </Router>
         
-        <AutoComplete />
+        
         
     </main>
-   );
+   )
 }
  

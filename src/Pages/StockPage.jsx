@@ -57,7 +57,7 @@ export const StockPage = () => {
     }, []);
 
     return (
-        <Container fluid>
+        <Container fluid className="mt-5 p-5 ">
             <Table striped hover bordered size="sm" className="mt-5 text-center">
                 <thead>
                     <tr>
