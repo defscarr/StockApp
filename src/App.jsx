@@ -1,8 +1,16 @@
+import React from 'react';
+import { AutoComplete } from "./Pages/AutoComplete";
+import { StockPage } from "./Pages/StockPage";
+
+
 export const App = () => {
   return ( 
-    <div>
-        App.jsx
-    </div>
+    <main>
+      
+        <StockPage />
+        <AutoComplete />
+        
+    </main>
    );
 }
  
