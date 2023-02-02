@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AutoComplete } from "./Components/AutoComplete";
 import { StockOverviewPage } from './Pages/StockOverviewPage';
+import { StockDetailPage } from './Pages/StockDetailPage';
+
 
 
 export const App = () => {
@@ -8,10 +10,9 @@ export const App = () => {
     <main>
       
       <Router>
-        <AutoComplete />
         <Routes>
           <Route path='/' element={<StockOverviewPage />}></Route>
-          <Route path='/details/:symbol' element={null}></Route>
+          <Route path='/detail/:symbol' element={<StockDetailPage/>}></Route>
         </Routes>
       </Router>
         

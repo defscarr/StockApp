@@ -2,7 +2,9 @@ import { useState, useEffect } from "react"
 import { Container, Table } from "react-bootstrap";
 import FinnHubApi from "../API/FinnHubApi"
 import {BsFillCaretDownFill, BsFillCaretUpFill} from "react-icons/bs"
+import { useNavigate } from "react-router-dom";
 import { UseGlobalContext } from "../Context/GlobalContext";
+import { AutoComplete } from "../Components/AutoComplete";
 
 
 
@@ -15,8 +17,13 @@ export const StockOverviewPage = () => {
 
 
     } = UseGlobalContext()
-    
 
+    const TraverseTo = useNavigate()
+
+    
+    const Navigate = (symbol) => {
+        TraverseTo(`detail/${symbol}`)
+    }
     const WatchArrow = (value) => {
         return value > 0 ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>
     }
@@ -64,38 +71,48 @@ export const StockOverviewPage = () => {
     }, [WatchList]);
 
     return (
-        <Container fluid className="mt-5 p-5 ">
-            <Table striped hover bordered size="sm" className="mt-5 text-center">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Last</th>
-                        <th>Chg</th>
-                        <th>Chg%</th>
-                        <th>High</th>
-                        <th>Low</th>
-                        <th>Open</th>
-                        <th>Pclose</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {StockList.map( stock => {
-                        return (
-                            <tr key={stock.symbol}>
-                                <th>{stock.symbol}</th>
-                                <td className={`text-${DownOrUp(stock.data.c)}`}>{stock.data.c} <span>{WatchArrow(stock.data.c)}</span></td>
-                                <td className={`text-${DownOrUp(stock.data.d)}`}>{stock.data.d} <span>{WatchArrow(stock.data.d)}</span></td>
-                                <td>{stock.data.dp}</td>
-                                <td>{stock.data.h}</td>
-                                <td>{stock.data.l}</td>
-                                <td>{stock.data.o}</td>
-                                <td>{stock.data.pc}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
+        <>
+            <AutoComplete />
+            <Container fluid className="mt-5 p-5 ">
+                <Table striped hover bordered size="sm" className="mt-5 text-center">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Last</th>
+                            <th>Chg</th>
+                            <th>Chg%</th>
+                            <th>High</th>
+                            <th>Low</th>
+                            <th>Open</th>
+                            <th>Pclose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {StockList.map( stock => {
+                            return (
+                                <tr 
+                                    key={stock.symbol}
+                                    onClick={() => Navigate(stock.symbol)}
+                                    style={{
+                                        cursor: "pointer"
 
-            </Table>
-        </Container >
+                                    }}
+                                >
+                                    <th>{stock.symbol}</th>
+                                    <td className={`text-${DownOrUp(stock.data.c)}`}>{stock.data.c} <span>{WatchArrow(stock.data.c)}</span></td>
+                                    <td className={`text-${DownOrUp(stock.data.d)}`}>{stock.data.d} <span>{WatchArrow(stock.data.d)}</span></td>
+                                    <td>{stock.data.dp}</td>
+                                    <td>{stock.data.h}</td>
+                                    <td>{stock.data.l}</td>
+                                    <td>{stock.data.o}</td>
+                                    <td>{stock.data.pc}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+
+                </Table>
+            </Container >
+        </>
     )
 }
