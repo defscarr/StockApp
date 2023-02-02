@@ -2,13 +2,20 @@ import { useState, useEffect } from "react"
 import { Container, Table } from "react-bootstrap";
 import FinnHubApi from "../API/FinnHubApi"
 import {BsFillCaretDownFill, BsFillCaretUpFill} from "react-icons/bs"
+import { UseGlobalContext } from "../Context/GlobalContext";
 
 
 
 export const StockPage = () => {
     
-    const [StockList, setStockList] = useState([]);
-    const [WatchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN"]);
+    const {
+
+        WatchList, setWatchList,
+        StockList, setStockList,
+
+
+    } = UseGlobalContext()
+    
 
     const WatchArrow = (value) => {
         return value > 0 ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>
@@ -54,7 +61,7 @@ export const StockPage = () => {
         
         FetchDataFromApi()
         return () => (IsMounted = false)
-    }, []);
+    }, [WatchList]);
 
     return (
         <Container fluid className="mt-5 p-5 ">

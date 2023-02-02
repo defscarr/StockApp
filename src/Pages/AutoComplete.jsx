@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import FinnHubApi from '../API/FinnHubApi';
-import { UseGlocalContext } from '../Context/GlobalContext';
+import { UseGlobalContext } from '../Context/GlobalContext';
 
 
 
 
 export const AutoComplete = () => {
     
-    const [SearchData, setSearchData] = useState("");
-    const [FetchResults, setFetchResults] = useState([]);
+    const {
+        
+        SearchData, setSearchData,
+        FetchResults, setFetchResults,
+        StockList,  setStockList,
+        WatchList, setWatchList
 
-    const test = UseGlocalContext()
+        
+    } = UseGlobalContext()
+    
+    const AddNewStock = (symbol) => {
+
+        const CheckDuplicate = WatchList.find( stock => stock === symbol)
+        if(CheckDuplicate) return
+        symbol.indexOf(".")  === -1 ? setWatchList([...WatchList, symbol]) : null
+
+        
+    }
+
 
 
     const ShowOrNot = () => {
@@ -26,7 +41,7 @@ export const AutoComplete = () => {
             // setFetchResults(result.data)
             const {result} = response.data
             setFetchResults(result)
-            console.log(test)
+            
 
         }
 
@@ -73,12 +88,11 @@ export const AutoComplete = () => {
                 >
                     {
                         FetchResults.map( stock => {
-                            const {description: info, symbol} = stock
-
+                            const {description: info, symbol:abbr} = stock
                             return (
-                                <li className='dropdown-item' key={symbol} onClick={null}>
+                                <li className='dropdown-item' key={abbr} onClick={() => AddNewStock(abbr)}>
                                     {info}
-                                    ({symbol.split(".")[0]})
+                                    ({abbr})
 
                                 </li>
                             )
