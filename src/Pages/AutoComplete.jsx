@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FinnHubApi from '../API/FinnHubApi';
+import { UseGlocalContext } from '../Context/GlobalContext';
 
 
 
@@ -8,6 +9,9 @@ export const AutoComplete = () => {
     
     const [SearchData, setSearchData] = useState("");
     const [FetchResults, setFetchResults] = useState([]);
+
+    const test = UseGlocalContext()
+
 
     const ShowOrNot = () => {
         return SearchData ? "show" : null 
@@ -22,6 +26,7 @@ export const AutoComplete = () => {
             // setFetchResults(result.data)
             const {result} = response.data
             setFetchResults(result)
+            console.log(test)
 
         }
 
