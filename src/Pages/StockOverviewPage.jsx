@@ -6,7 +6,7 @@ import { UseGlobalContext } from "../Context/GlobalContext";
 
 
 
-export const StockPage = () => {
+export const StockOverviewPage = () => {
     
     const {
 

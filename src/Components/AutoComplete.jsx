@@ -22,6 +22,7 @@ export const AutoComplete = () => {
         const CheckDuplicate = WatchList.find( stock => stock === symbol)
         if(CheckDuplicate) return
         symbol.indexOf(".")  === -1 ? setWatchList([...WatchList, symbol]) : null
+        setSearchData("")
 
         
     }
@@ -41,7 +42,7 @@ export const AutoComplete = () => {
             // setFetchResults(result.data)
             const {result} = response.data
             setFetchResults(result)
-            
+
 
         }
 
