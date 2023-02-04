@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import FinnHubApi from "../API/FinnHubApi"
+import { StockChart } from "../Components/StockChart";
 
 
 
@@ -87,7 +88,7 @@ export const StockDetailPage = () => {
 
 
     return (
-        <div>StockDetailPage for {symbol}</div>
-    )
+        <div>{StockDetail && <StockChart/>}</div>
+        )
 }
 
