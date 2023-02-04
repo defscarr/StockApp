@@ -5,8 +5,19 @@ import FinnHubApi from "../API/FinnHubApi"
 
 
 export const StockDetailPage = () => {
+    const [StockDetail, setStockDetail] = useState([]);
     const {symbol} = useParams()
 
+    const ParseData = (data) => {
+        return data ? data.t.map( (time, index) => {
+            return {
+                x: time,
+                y: data.c[index]
+            }
+        }) : null
+
+
+    }
 
     useEffect(() => {
 
@@ -27,6 +38,24 @@ export const StockDetailPage = () => {
             try {
                 const responses = await Promise.all(
                     [
+                        FinnHubApi.get("/stock/candle", {
+                            params: {
+                                symbol,
+                                to: CurrentTimestamp,
+                                from: WeekAgo,
+                                resolution: 60
+                            }
+                        }),
+
+                    FinnHubApi.get("/stock/candle", {
+                        params: {
+                            symbol,
+                            to: CurrentTimestamp,
+                            from: YearAgo,
+                            resolution: "W"
+                        }
+                    }), 
+
                     FinnHubApi.get("/stock/candle", {
                         params: {
                             symbol,
@@ -35,39 +64,26 @@ export const StockDetailPage = () => {
                             resolution: "D"
                         }
                     })
-                ],
-                [
-                    FinnHubApi.get("/stock/candle", {
-                        params: {
-                            symbol,
-                            to: CurrentTimestamp,
-                            from: WeekAgo,
-                            resolution: 60
-                        }
-                    })
-                ],
-                                    [
-                    FinnHubApi.get("/stock/candle", {
-                        params: {
-                            symbol,
-                            to: CurrentTimestamp,
-                            from: YearAgo,
-                            resolution: "W"
-                        }
-                    })
-                ],               
+     
+                ]
                 )
-                console.log(responses)    
+                
+                setStockDetail({
+
+                        day: ParseData(responses[0].data),
+                        week: ParseData(responses[1].data),
+                        year: ParseData(responses[2].data)
+                    })
             } 
             catch (error) {
-                console.log("Axios Error on Promise ::NET DISCONNECTED")
+                console.log(error)
 
             }
 
     }
         GetCandleData()
 
-    }, []);
+    }, [symbol]);
 
 
     return (
